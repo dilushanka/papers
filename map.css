@@ -1,0 +1,58 @@
+#map-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+#sri-lanka-map {
+    width: 100%;
+    height: auto;
+}
+
+/* Default styling for all province paths */
+#sri-lanka-map path {
+    fill: #005A9E; /* Primary color */
+    stroke: #ffffff;
+    stroke-width: 3px;
+    cursor: pointer;
+    transition: fill 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect */
+#sri-lanka-map path:hover {
+    fill: #0080ff; /* Brighter blue on hover */
+    transform: scale(1.005);
+    transform-origin: center;
+}
+
+/* Optional: Label styling */
+#map-instructions {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: #555;
+    font-style: italic;
+}
+#province-name-display {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color); /* Matches your header color */
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: var(--border-radius);
+    display: inline-block; /* Makes it shrink to content size */
+    min-width: 200px; /* Ensure it has a decent size even for short names */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
+}
+
+#map-instructions { /* Existing style, just ensuring it looks good with the new element */
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: #555;
+    font-style: italic;
+}

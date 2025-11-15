@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sri Lanka Past Papers Archive (A/L, O/L, Grade 5)</title>
+    <meta name="description" content="Search and find Sri Lankan G.C.E. Advanced Level (A/L), Ordinary Level (O/L), and Grade 5 Scholarship past papers. All subjects available.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>🇱🇰 Sri Lanka Past Paper Archive</h1>
+        <p>Find A/L, O/L, and Grade 5-11 papers easily.</p>
+    </header>
+
+    <main>
+        <div class="filter-container">
+            <select id="filter-exam">
+                <option value="">-- Select Exam --</option>
+                <option value="al">A/L (Advanced Level)</option>
+                <option value="ol">O/L (Ordinary Level)</option>
+                <option value="grade11">Grade 11</option>
+                <option value="grade10">Grade 10</option>
+                <option value="grade9">Grade 9</option>
+                <option value="grade8">Grade 8</option>
+                <option value="grade7">Grade 7</option>
+                <option value="grade6">Grade 6</option>
+                <option value="grade5">Grade 5 (Scholarship)</option>
+            </select>
+            
+            <select id="filter-subject" disabled>
+                <option value="">-- Select Subject --</option>
+            </select>
+            <select id="filter-year" disabled>
+                <option value="">-- Select Year --</option>
+            </select>
+            <select id="filter-medium" disabled>
+                <option value="">-- Select Medium --</option>
+            </select>
+            
+            <input type="text" id="search-bar" placeholder="Search by name...">
+        </div>
+
+        <div id="results-container">
+            <div id="loading-spinner" class="spinner" style="display: none;"></div>
+            <p id="results-message">Please select an exam to load papers.</p>
+        </div>
+
+        <div id="pdf-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <iframe id="pdf-iframe" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

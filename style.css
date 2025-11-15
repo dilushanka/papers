@@ -1,0 +1,194 @@
+/* Basic Setup */
+:root {
+    --primary-color: #005A9E; /* Sri Lankan blue */
+    --secondary-color: #6c757d; /* Gray for download button */
+    --light-gray: #f4f4f4;
+    --dark-text: #333;
+    --border-radius: 8px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    background: #fdfdfd;
+    color: var(--dark-text);
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    background: var(--primary-color);
+    color: white;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+header h1 {
+    margin: 0;
+}
+
+/* Main Content */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+/* Filter & Search Bar */
+.filter-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.filter-container select,
+.filter-container input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    background: #fafafa;
+}
+.filter-container select:disabled {
+    background: var(--light-gray);
+    cursor: not-allowed;
+}
+
+/* Results */
+#results-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.paper-item {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+    
+    /* *** NEW: Use Flexbox for better card layout *** */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Pushes button group to bottom */
+}
+.paper-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+.paper-item h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+.paper-item p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* *** NEW: Button Group and Button Styles *** */
+.button-group {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem; /* Space between buttons */
+}
+
+/* Style for both buttons/links */
+.preview-btn,
+.download-btn {
+    flex: 1; /* Make buttons share space */
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none; /* For the <a> tag */
+    transition: background-color 0.2s ease;
+}
+
+.preview-btn {
+    background: var(--primary-color);
+}
+.preview-btn:hover {
+    opacity: 0.85;
+}
+
+.download-btn {
+    background: var(--secondary-color);
+}
+.download-btn:hover {
+    background: #5a6268; /* Darker gray on hover */
+}
+
+
+/* PDF Preview Modal */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 3% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    height: 90%;
+    border-radius: var(--border-radius);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.close-button:hover {
+    color: black;
+}
+.spinner {
+    margin: 4rem auto;
+    border: 5px solid var(--light-gray);
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#pdf-iframe {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1; /* Takes up all available space */
+}
