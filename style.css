@@ -237,3 +237,77 @@ main {
 
 /* You might want a small inline spinner for the button itself if it takes time to open the modal */
 /* .preview-button.loading::after { ... } */
+/* --- Navigation Bar Styles --- */
+
+#main-nav {
+    position: fixed; /* Makes the nav bar stick to the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333; /* Dark background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure it stays above other content */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin-right: 10px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.nav-links a:hover {
+    background-color: #555;
+}
+
+/* Style for the current page link */
+.nav-links .current {
+    background-color: #007bff; /* Highlight color */
+}
+
+/* --- GitHub Contribute Button --- */
+
+.github-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: #24292e; /* GitHub official dark color */
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.github-btn:hover {
+    background-color: #4a5157;
+}
+
+/* GitHub SVG icon color */
+.github-btn svg {
+    fill: white;
+}
+
+/* --- Content Adjustment --- */
+/* Push the header and main content down so they aren't hidden behind the fixed nav bar */
+header {
+    margin-top: 60px; /* Adjust this value based on the height of your nav bar */
+}
+/* Main nav */
+#main-nav{
+ transform:translatex(0px) translatey(0px);
+}
+
+/* Link */
+#main-nav .nav-contribute a{
+ margin-left:0px;
+ width:266px;
+}
