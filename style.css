@@ -1,10 +1,14 @@
-/* Basic Setup */
+/* ====================================================================
+   1. VARIABLES & BASE STYLES
+   ==================================================================== */
 :root {
-    --primary-color: #005A9E; /* Sri Lankan blue */
-    --secondary-color: #6c757d; /* Gray for download button */
+    --primary-color: #005A9E;    /* Sri Lankan blue */
+    --secondary-color: #6c757d;   /* Gray for download button */
+    --github-color: #24292e;     /* GitHub dark color */
     --light-gray: #f4f4f4;
     --dark-text: #333;
     --border-radius: 8px;
+    --nav-height: 60px;          /* Defined height for fixed navigation */
 }
 
 body {
@@ -16,26 +20,94 @@ body {
     padding: 0;
 }
 
-/* Header */
+/* ====================================================================
+   2. NAVIGATION (Fixed Header)
+   ==================================================================== */
+
+#main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--nav-height); /* Set a fixed height */
+    background-color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    box-sizing: border-box; /* Include padding in width/height calculation */
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin-right: 10px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+}
+
+.nav-links a:hover {
+    background-color: #555;
+}
+
+.nav-links .current {
+    background-color: #007bff; /* Current page highlight */
+}
+
+/* GitHub Contribute Button */
+.github-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: var(--github-color);
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.github-btn:hover {
+    background-color: #4a5157;
+}
+
+.github-btn svg {
+    fill: white;
+}
+
+/* ====================================================================
+   3. HEADER & MAIN CONTENT
+   ==================================================================== */
+
 header {
+    /* Offset content below the fixed nav bar */
+    padding-top: calc(1.5rem + var(--nav-height));
     background: var(--primary-color);
     color: white;
-    padding: 1.5rem 1rem;
+    padding-bottom: 1.5rem;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 header h1 {
     margin: 0;
 }
 
-/* Main Content */
 main {
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
 
-/* Filter & Search Bar */
+/* ====================================================================
+   4. FILTER & RESULTS
+   ==================================================================== */
+
 .filter-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -61,7 +133,6 @@ main {
     cursor: not-allowed;
 }
 
-/* Results */
 #results-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -75,11 +146,9 @@ main {
     padding: 1rem;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     transition: all 0.2s ease;
-    
-    /* *** NEW: Use Flexbox for better card layout *** */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Pushes button group to bottom */
+    justify-content: space-between;
 }
 .paper-item:hover {
     transform: translateY(-3px);
@@ -96,17 +165,16 @@ main {
     color: #555;
 }
 
-/* *** NEW: Button Group and Button Styles *** */
+/* Button Group and Button Styles */
 .button-group {
     margin-top: 1rem;
     display: flex;
-    gap: 0.5rem; /* Space between buttons */
+    gap: 0.5rem;
 }
 
-/* Style for both buttons/links */
 .preview-btn,
 .download-btn {
-    flex: 1; /* Make buttons share space */
+    flex: 1;
     text-align: center;
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
@@ -115,8 +183,8 @@ main {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    text-decoration: none; /* For the <a> tag */
-    transition: background-color 0.2s ease;
+    text-decoration: none;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
 .preview-btn {
@@ -130,31 +198,38 @@ main {
     background: var(--secondary-color);
 }
 .download-btn:hover {
-    background: #5a6268; /* Darker gray on hover */
+    background: #5a6268;
 }
 
+/* Loading State for Buttons */
+.preview-btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
 
-/* PDF Preview Modal */
+/* ====================================================================
+   5. MODAL & SPINNER
+   ==================================================================== */
+
 .modal {
     display: none; 
     position: fixed;
-    z-index: 1000;
+    z-index: 10000; /* High z-index to cover everything */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .modal-content {
     background-color: #fefefe;
     margin: 3% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border-radius: var(--border-radius);
     width: 90%;
     height: 90%;
-    border-radius: var(--border-radius);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -168,39 +243,22 @@ main {
     font-size: 35px;
     font-weight: bold;
     cursor: pointer;
+    z-index: 10002; /* Ensure the close button is clickable over the loader/iframe */
 }
 .close-button:hover {
     color: black;
 }
-.spinner {
-    margin: 4rem auto;
-    border: 5px solid var(--light-gray);
-    border-top: 5px solid var(--primary-color);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-}
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-#pdf-iframe {
-    width: 100%;
-    height: 100%;
-    flex-grow: 1; /* Takes up all available space */
-}
-/* Spinner Base Styling */
+/* Unified Spinner Style (Used for #loading-spinner and #pdf-loader) */
 .spinner {
-    border: 8px solid #f3f3f3; /* Light grey */
-    border-top: 8px solid #3498db; /* Blue */
+    /* Merged and centralized spinner properties */
+    border: 8px solid var(--light-gray);
+    border-top: 8px solid var(--primary-color); /* Used primary color for spinner */
     border-radius: 50%;
     width: 60px;
     height: 60px;
     animation: spin 1s linear infinite;
-    display: none; /* Hidden by default */
+    display: none; /* Controlled by JavaScript */
 }
 
 @keyframes spin {
@@ -208,106 +266,19 @@ main {
     100% { transform: rotate(360deg); }
 }
 
-/* Specific styling for the PDF loader inside the modal */
+/* Spinner position specifically for the PDF Modal */
 .modal-loader {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1001; /* Ensure it is above the iframe */
+    z-index: 10001; /* Above the iframe but below the close button */
 }
 
-/* Ensure the iframe is initially hidden when the loader is active */
 #pdf-iframe {
     width: 100%;
-    height: calc(100% - 40px); /* Adjust height based on your modal-content padding/header */
-    display: none; 
-}
-
-/* Style for the 'Preview PDF' button (assuming your button is a class called 'preview-button') */
-.preview-button {
-    /* Add existing button styles */
-    position: relative; /* Important for the loading state */
-}
-
-.preview-button.loading {
-    pointer-events: none; /* Prevent clicks while loading */
-    opacity: 0.7;
-}
-
-/* You might want a small inline spinner for the button itself if it takes time to open the modal */
-/* .preview-button.loading::after { ... } */
-/* --- Navigation Bar Styles --- */
-
-#main-nav {
-    position: fixed; /* Makes the nav bar stick to the top */
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #333; /* Dark background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Ensure it stays above other content */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 5%;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 15px;
-    margin-right: 10px;
-    font-weight: 500;
-    transition: background-color 0.3s;
-    border-radius: 4px;
-}
-
-.nav-links a:hover {
-    background-color: #555;
-}
-
-/* Style for the current page link */
-.nav-links .current {
-    background-color: #007bff; /* Highlight color */
-}
-
-/* --- GitHub Contribute Button --- */
-
-.github-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    background-color: #24292e; /* GitHub official dark color */
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-.github-btn:hover {
-    background-color: #4a5157;
-}
-
-/* GitHub SVG icon color */
-.github-btn svg {
-    fill: white;
-}
-
-/* --- Content Adjustment --- */
-/* Push the header and main content down so they aren't hidden behind the fixed nav bar */
-header {
-    margin-top: 60px; /* Adjust this value based on the height of your nav bar */
-}
-/* Main nav */
-#main-nav{
- transform:translatex(0px) translatey(0px);
-}
-
-/* Link */
-#main-nav .nav-contribute a{
- margin-left:0px;
- width:266px;
+    /* Use calc to fill the remaining space below the close button/padding */
+    height: 100%; 
+    flex-grow: 1; 
+    display: none; /* Controlled by JavaScript */
 }
