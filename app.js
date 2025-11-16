@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- 1. STATE AND DOM ELEMENTS ---
-    let allPapers = []; // This will store data from the *one* loaded JSON
+    let allPapers = [];
     let currentFilters = {
-        // 'exam' is no longer needed here, as it's handled by which file we load
         subject: '',
         year: '',
         medium: ''
@@ -17,8 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
         results: document.getElementById('results-container'),
         message: document.getElementById('results-message'),
         spinner: document.getElementById('loading-spinner'),
+        
+        // --- UPDATED/NEW MODAL ELEMENTS ---
         modal: document.getElementById('pdf-modal'),
         iframe: document.getElementById('pdf-iframe'),
+        pdfLoader: document.getElementById('pdf-loader'), // NEW: PDF Loader Spinner
         closeButton: document.querySelector('.close-button')
     };
 
@@ -80,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 4. SUB-FILTERING ---
-    // This function is now simpler! It only handles sub-filters.
+    // ... (handleFilterChange function remains unchanged) ...
     function handleFilterChange(filterKey, value) {
         currentFilters[filterKey] = value;
 
@@ -146,13 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Display results
-        selectors.results.innerHTML = ''; // Clear previous results (like spinner)
+        selectors.results.innerHTML = ''; 
         if (filteredPapers.length === 0) {
-            // If we have data but no results, show "No papers found"
             if(allPapers.length > 0) {
                  selectors.results.innerHTML = '<p>No papers found matching your criteria.</p>';
             } else {
-                // This case handles when the user hasn't selected an exam yet
                 selectors.message.style.display = 'block';
                 selectors.message.textContent = 'Please select an exam to load papers.';
             }
@@ -189,21 +189,69 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.preview-btn').forEach(button => {
             button.addEventListener('click', () => {
                 const driveLink = button.getAttribute('data-link');
-                openModal(driveLink);
+                // Pass the button element to modify its style/class (optional)
+                openModal(driveLink, button); 
             });
         });
     }
 
-    // --- 6. PDF PREVIEW MODAL ---
-    function openModal(driveLink) {
+    // --- 6. PDF PREVIEW MODAL (UPDATED) ---
+    function openModal(driveLink, buttonElement) {
         const embedLink = driveLink.replace("/view?usp=sharing", "/preview");
-        selectors.iframe.src = embedLink;
+        
+        // 1. Set the initial state for the modal
         selectors.modal.style.display = 'block';
+        selectors.iframe.style.display = 'none'; // Hide iframe content
+        selectors.pdfLoader.style.display = 'block'; // Show the loading spinner
+        
+        if (buttonElement) {
+            buttonElement.classList.add('loading'); // Add a class to the button (for styling/disabling)
+            buttonElement.textContent = 'Loading...'; 
+        }
+
+        // 2. Set the source and wait for it to load
+        selectors.iframe.src = embedLink;
+
+        // Use a one-time event listener for the iframe load event
+        selectors.iframe.onload = function() {
+            // 3. Loading complete: hide spinner, show iframe
+            selectors.pdfLoader.style.display = 'none';
+            selectors.iframe.style.display = 'block';
+            
+            if (buttonElement) {
+                buttonElement.classList.remove('loading');
+                buttonElement.textContent = 'Preview';
+            }
+
+            // Clean up the onload handler
+            selectors.iframe.onload = null;
+        };
+        
+        // Handle potential errors/issues with loading the iframe
+        selectors.iframe.onerror = function() {
+            console.error("Failed to load PDF in iframe.");
+            selectors.pdfLoader.style.display = 'none';
+            selectors.iframe.style.display = 'none';
+            // Optionally, display an error message in the modal content
+            
+            if (buttonElement) {
+                buttonElement.classList.remove('loading');
+                buttonElement.textContent = 'Preview';
+            }
+            selectors.iframe.onerror = null;
+        };
     }
 
     function closeModal() {
+        // Clean up the iframe and modal state
         selectors.iframe.src = '';
         selectors.modal.style.display = 'none';
+        selectors.iframe.style.display = 'none';
+        selectors.pdfLoader.style.display = 'none';
+        
+        // Resetting the onload and onerror handlers when closing is good practice
+        selectors.iframe.onload = null;
+        selectors.iframe.onerror = null;
     }
 
     selectors.closeButton.onclick = closeModal;
@@ -214,6 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 7. UTILITY FUNCTIONS ---
+    // ... (Utility functions remain unchanged) ...
     function getUniqueValues(arr, key) {
         return [...new Set(arr.map(item => item[key]))].sort();
     }

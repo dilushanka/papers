@@ -192,3 +192,48 @@ main {
     height: 100%;
     flex-grow: 1; /* Takes up all available space */
 }
+/* Spinner Base Styling */
+.spinner {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    display: none; /* Hidden by default */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Specific styling for the PDF loader inside the modal */
+.modal-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001; /* Ensure it is above the iframe */
+}
+
+/* Ensure the iframe is initially hidden when the loader is active */
+#pdf-iframe {
+    width: 100%;
+    height: calc(100% - 40px); /* Adjust height based on your modal-content padding/header */
+    display: none; 
+}
+
+/* Style for the 'Preview PDF' button (assuming your button is a class called 'preview-button') */
+.preview-button {
+    /* Add existing button styles */
+    position: relative; /* Important for the loading state */
+}
+
+.preview-button.loading {
+    pointer-events: none; /* Prevent clicks while loading */
+    opacity: 0.7;
+}
+
+/* You might want a small inline spinner for the button itself if it takes time to open the modal */
+/* .preview-button.loading::after { ... } */
