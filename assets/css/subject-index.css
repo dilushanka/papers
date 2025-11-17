@@ -1,0 +1,132 @@
+/* subject-index.css */
+
+/* Table Responsiveness and Styling (UI/UX) */
+.table-responsive {
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
+    margin-top: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.papers-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px; /* Ensure table doesn't compress too much */
+}
+
+.papers-table th, .papers-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.papers-table thead th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.papers-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Action Button */
+.action-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #28a745; /* Green for action */
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.action-btn:hover {
+    background-color: #1e7e34;
+}
+
+/* SEO Content Block Styling */
+.seo-content-block {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+}
+.seo-content-block h3 {
+    color: var(--primary-color);
+}
+
+/* Specific Mobile Table Layout (Enhanced UX) */
+@media (max-width: 600px) {
+    .papers-table {
+        display: block;
+        width: 100%;
+    }
+    .papers-table thead {
+        display: none; /* Hide header row */
+    }
+    .papers-table tbody, .papers-table tr {
+        display: block;
+    }
+    .papers-table td {
+        display: block;
+        text-align: right;
+        border-bottom: 1px dashed #ddd;
+        padding-left: 50%;
+        position: relative;
+    }
+    .papers-table td::before {
+        content: attr(data-label); /* Show header text using data-label attribute */
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        text-align: left;
+        font-weight: bold;
+        color: var(--secondary-color);
+    }
+    /* NOTE: You would need to add data-label attributes to the <td> elements in HTML for this to work perfectly. */
+}
+/* Add this to subject-index.css */
+
+.filter-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+    flex-wrap: wrap; /* Allows controls to wrap on small screens */
+    align-items: center;
+}
+
+.filter-controls select {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    flex-grow: 1; /* Allows selects to expand */
+    max-width: 250px;
+}
+
+.filter-controls button {
+    padding: 10px 15px;
+    flex-shrink: 0; /* Prevents button from shrinking too much */
+    background-color: var(--secondary-color); /* Grey for reset button */
+}
+
+.filter-controls button:hover {
+    background-color: #5a6268;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 600px) {
+    .filter-controls select,
+    .filter-controls button {
+        width: 100%; /* Full width stack */
+        max-width: none;
+    }
+}
